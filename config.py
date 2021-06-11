@@ -1,7 +1,7 @@
 import torch
 
 vocab_size = 30000
-max_len = 25
+max_len = 150
 batch_size = 64
 model_dim = 512
 ff_dim = 2048
