@@ -67,7 +67,8 @@ with open(wordmap_out, 'w') as file:
 
 def encode_question(words, word_map):
     enc_c = [word_map.get(word, word_map['<unk>']) for word in words] + [word_map['<pad>']] * (max_len - len(words))
-
+    return enc_c
+    
 def encode_reply(words, word_map):
     enc_c = [word_map['<start>']] + [word_map.get(word, word_map['<unk>']) for word in words] + [word_map['<end>']] + [word_map['<pad>']] * (max_len - len(words))
     return enc_c
