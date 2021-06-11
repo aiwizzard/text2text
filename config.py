@@ -20,3 +20,5 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 bert_model_name = 'bert-base-uncased'
 
 train_data = '.data/train_data.json'
+data_dir = '.data'
+fn = 'trained_model'
