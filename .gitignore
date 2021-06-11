@@ -131,3 +131,6 @@ dmypy.json
 
 # for testing purpose
 loss.py
+
+# vscode
+settings.json
