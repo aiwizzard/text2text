@@ -10,9 +10,8 @@ class ChatDataSet(Dataset):
         self.size = len(data)
 
     def __getitem__(self, index) -> T_co:
-        source, target = self.data[index]
-        source = torch.LongTensor(source)
-        target = torch.LongTensor(target)
+        source = torch.LongTensor(self.data[index][0])
+        target = torch.LongTensor(self.data[index][1])
         return source, target
 
     def __len__(self):
