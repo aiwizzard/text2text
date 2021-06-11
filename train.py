@@ -94,7 +94,7 @@ def main(config):
         adam_opimizer, factor=2, model_dim=config.model_dim, warmup=config.warmup
     )
 
-    for epoch in config.epochs:
+    for epoch in range(0, config.epochs):
         train(epoch, config, model, train_loader, criterion, optimizer)
 
     logger.info("finished Training")
