@@ -72,7 +72,8 @@ def train(epoch: int, config, model: ChatModel, data_loader, criterion, optimize
 
 
 def main(config):
-    with open(config.train_data, 'r')as file:
+    train_data = []
+    with open(config.train_data)as file:
         train_data = json.load(file)
     train_loader = DataLoader(
         ChatDataSet(train_data),
