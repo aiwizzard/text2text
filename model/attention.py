@@ -52,16 +52,16 @@ class MultiHeadAttention(nn.Module):
         self.attention = ScaledDotProductAttention(model_dim, dropout_rate)
 
     def forward(self, query, key, value, mask=None):
-        batch_size = query.size(0)
+        batch_size = query.shape[0]
         if mask is not None:
             mask = mask.unsqueeze(1)
 
-        query = self.query_weights(query).contiguous().view(batch_size, -1, self.head, \
-            self.key_dim).transpose(1, 2)
-        key = self.key_weights(key).contiguous().view(batch_size, -1, self.head, \
-            self.key_dim).transpose(1, 2)
-        value = self.value_weights(value).contiguous().view(batch_size, -1, self.head, \
-            self.key_dim).transpose(1, 2)
+        query = self.query_weights(query).view(batch_size, -1, self.head, \
+            self.key_dim).permute(0, 2, 1, 3)
+        key = self.key_weights(key).view(batch_size, -1, self.head, \
+            self.key_dim).permute(0, 2, 1, 3)
+        value = self.value_weights(value).view(batch_size, -1, self.head, \
+            self.key_dim).permute(0, 2, 1, 3)
 
         out, attention = self.attention(query, key, value, mask)
         # Transpose to move the head dimension back and 
@@ -82,7 +82,7 @@ class ScaledDotProductAttention(nn.Module):
         
     def forward(self, query, key, value, mask=None):
         dk = query.size(-1)
-        attention = torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(dk)
+        attention = torch.matmul(query, key.permute(0, 1, 3, 2)) / math.sqrt(dk)
         if mask is not None:
             attention = attention.masked_fill(mask == 0, -1e9)
         attention = F.softmax(attention, dim=-1)
