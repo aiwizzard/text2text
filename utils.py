@@ -5,12 +5,9 @@ import config as config
 
 def create_masks(source, target, target_y, pad=0):
     def subsequent_mask(size):
-        # mask = torch.triu(torch.ones(1, size, size)).type(dtype=torch.uint8)
-        # mask = mask.unsqueeze(0) == 0
-        # return mask
-        attn_shape = (1, size, size)
-        subsequent_mask = np.triu(np.ones(attn_shape), k=1).astype('uint8')
-        return torch.from_numpy(subsequent_mask) == 0
+        mask = torch.triu(torch.ones(1, size, size)).type(dtype=torch.uint8)
+        mask = mask.unsqueeze(0) == 0
+        return mask
 
     source_mask = (source != pad).to(config.device)
 
