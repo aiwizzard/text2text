@@ -10,7 +10,7 @@ def create_masks(source, target, target_y, pad=0):
         return mask
 
     source_mask = (source != pad).to(config.device)
-    source_mask = source_mask.unsqueeze(1)
+    source_mask = source_mask.unsqueeze(-1)
 
     target_mask = target != pad
     target_mask = target_mask.unsqueeze(1) 
