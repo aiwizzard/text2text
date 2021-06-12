@@ -6,7 +6,7 @@ import config as config
 def create_masks(source, target, target_y, pad=0):
     def subsequent_mask(size):
         mask = torch.triu(torch.ones(size, size)).transpose(0, 1).type(dtype=torch.uint8)
-        mask = mask.unsqueeze(0) == 0
+        mask = mask.unsqueeze(0)
         return mask
 
     source_mask = (source != pad).to(config.device)
