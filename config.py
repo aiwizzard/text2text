@@ -1,7 +1,10 @@
+import json
 import torch
 from torch._C import device
+with open('.data/wordmap.json', 'r') as j:
+    word_map = json.load(j)
 
-vocab_size = 30000
+vocab_size = len(word_map)
 max_len = 27
 batch_size = 64
 model_dim = 768
