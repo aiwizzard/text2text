@@ -1,9 +1,10 @@
 import torch
+from torch._C import device
 
 vocab_size = 30000
-max_len = 150
+max_len = 27
 batch_size = 64
-model_dim = 512
+model_dim = 768
 ff_dim = 2048
 head = 8
 n_layers = 6
