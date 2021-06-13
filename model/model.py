@@ -26,11 +26,11 @@ class ChatModel(nn.Module):
 
         for param in self.decoder.parameters():
             if param.dim() > 1:
-                nn.init.xavier_uniform(param)
+                nn.init.xavier_uniform_(param)
         
         for param in self.generator.parameters():
             if param.dim() > 1:
-                nn.init.xavier_uniform(param)
+                nn.init.xavier_uniform_(param)
 
 
     def forward(self,source, source_mask, target, target_mask):
