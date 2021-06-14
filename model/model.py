@@ -11,7 +11,8 @@ class ChatModel(nn.Module):
     def __init__(self, config) -> None:
         super(ChatModel, self).__init__()
         self.config = config
-        self.encoder = BertEncoder.from_pretrained(self.config.bert_model_name)
+        self.encoder = BertEncoder.from_pretrained(self.config.bert_model_name).eval()
+        self.encoder.freeze()
         self.decoder = Decoder(
             config.vocab_size,
             config.n_layers,
