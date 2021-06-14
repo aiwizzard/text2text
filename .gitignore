@@ -134,3 +134,6 @@ loss.py
 
 # vscode
 settings.json
+
+# trainined models
+*.pth
