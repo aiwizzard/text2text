@@ -3,12 +3,8 @@ import torch
 
 import config as config
 from model.model import ChatModel
+from utils import subsequent_mask
 
-
-def subsequent_mask(size):
-        mask = torch.triu(torch.ones(size, size)).transpose(0, 1).type(dtype=torch.uint8)
-        mask = mask.unsqueeze(0)
-        return mask
 
 def evaluate(config, query, model, word_map):
     model.eval()
@@ -27,7 +23,7 @@ def evaluate(config, query, model, word_map):
     # words = torch.LongTensor([[start_token]]).to(config.device)
     for i in range(config.max_len -1):
         target_mask = subsequent_mask(words.size(1)).to(config.device)
-        out = model.decode(mem, src_mask, words, target_mask)
+        out = model.decode(words, mem, src_mask, target_mask)
         print(f"out: {out}")
         prob = model.generate(out[:, -1])
         _, candidate = prob.topk(5, dim=1)
@@ -56,7 +52,6 @@ def main(config):
     model = ChatModel(config).to(config.device)
     model.load_state_dict(state_dict['model'])
     model.eval()
-    model.freeze()
     while True:
         query = input('You>')
         if query == 'q':
