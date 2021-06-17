@@ -1,7 +1,6 @@
 import math
 import torch
 import torch.nn as nn
-from torch.nn.modules.sparse import Embedding
 
 
 class Embeddings(nn.Module):
