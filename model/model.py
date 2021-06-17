@@ -32,11 +32,22 @@ class ChatModel(nn.Module):
         )
         # generate probabilities
         self.generator = Generator(config.model_dim, config.vocab_size)
+    
+    def encode(self, source, source_mask):
+        encoded = self.encoder(source, source_mask)
+        return encoded
+
+    def decode(self, target, encoded, source_mask, target_mask):
+        decoded = self.decoder(target, encoded, source_mask, target_mask)
+        return decoded
+
+    def generate(self, x):
+        return self.generator(x)
 
     def forward(self, source, source_mask, target, target_mask):
-        encoded = self.encoder(source, source_mask)
-        decoded = self.decoder(target, encoded, source_mask, target_mask)
-        out = self.generator(decoded)
+        encoded = self.encode(source, source_mask)
+        decoded = self.decode(target, encoded, source_mask, target_mask)
+        out = self.generate(decoded)
         return out
 
 
