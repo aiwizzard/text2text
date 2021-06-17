@@ -100,7 +100,6 @@ class ScaledDotProductAttention(nn.Module):
     def forward(self, query, key, value, mask=None):
         dk = query.size(-1)
         attention = torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(dk)
-        attention = self.layer_norm(attention)
         if mask is not None:
             attention = attention.masked_fill(mask == 0, -1e9)
         attention = F.softmax(attention, dim=-1)
