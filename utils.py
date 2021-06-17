@@ -8,7 +8,7 @@ def subsequent_mask(size):
     mask = np.triu(np.ones(shape), k=1).astype(np.uint8)
     return torch.from_numpy(mask) == 0
 
-def create_masks(source, target, target_y, pad=0):
+def create_masks(source, target, pad=0):
     source_mask = (source != pad).to(config.device)
 
     target_mask = (target != pad).unsqueeze(-2)
