@@ -39,7 +39,7 @@ def train(epoch: int, config, model: ChatModel, data_loader, criterion, optimize
 
             # create mask and add dimension
 
-            source_mask, target_mask = create_masks(x, target, target_y)
+            source_mask, target_mask = create_masks(x, target)
 
             out = model(x, source_mask, target, target_mask)
 
