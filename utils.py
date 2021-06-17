@@ -4,7 +4,8 @@ import numpy as np
 import config as config
 
 def subsequent_mask(size):
-    mask = np.triu(np.ones(1, size, size), k=1).astype(np.uint8)
+    shape = (1, size, size)
+    mask = np.triu(np.ones(shape), k=1).astype(np.uint8)
     return torch.from_numpy(mask) == 0
 
 def create_masks(source, target, target_y, pad=0):
