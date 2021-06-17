@@ -4,7 +4,7 @@ import numpy as np
 import config as config
 
 def subsequent_mask(size):
-    mask = np.triu(np.ones(1, size, size), k=1).astype('uint8')
+    mask = np.triu(np.ones(1, size, size), k=1).astype(np.uint8)
     return torch.from_numpy(mask) == 0
 
 def create_masks(source, target, target_y, pad=0):
@@ -12,5 +12,5 @@ def create_masks(source, target, target_y, pad=0):
 
     target_mask = (target != pad).unsqueeze(-2)
     target_mask = target_mask & subsequent_mask(target.size(-1)).type_as(target_mask)
-    
+
     return source_mask, target_mask
