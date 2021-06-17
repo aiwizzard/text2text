@@ -1,15 +1,9 @@
-# load the model
-# set model to eval
-# get input
-# process the input
-# pass input to model and get output
-# return the output to the user
-
 import json
 import torch
-from model.model import ChatModel
 
 import config as config
+from model.model import ChatModel
+
 
 def subsequent_mask(size):
         mask = torch.triu(torch.ones(size, size)).transpose(0, 1).type(dtype=torch.uint8)
@@ -39,7 +33,6 @@ def evaluate(config, query, model, word_map):
         _, candidate = prob.topk(5, dim=1)
         next_word = candidate[0, 0]
         if next_word == word_map['<end>']:
-            print(word_map['<end>'])
             break
         words = torch.cat([words, torch.ones(1, 1).type_as(words).fill_(next_word).long()], dim=1)
         # words = torch.cat([words, torch.LongTensor([[next_word]]).to(config.device)], dim=1)
