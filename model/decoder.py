@@ -1,8 +1,8 @@
 import torch.nn as nn
 
-from .ffnet import FFNet
-from .attention import SelfAttention, SourceTargetAttention
-from .embedding import Embeddings, PositonalEncoding
+from model.ffnet import FFNet
+from model.attention import SelfAttention, SourceTargetAttention
+from model.embedding import Embeddings, PositonalEncoding
 
 
 class Decoder(nn.Module):
