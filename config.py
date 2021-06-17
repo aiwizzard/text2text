@@ -16,10 +16,12 @@ epochs = 3
 
 lr = 1e-3
 betas = (0.9, 0.98)
+max_grad_norm = 1.0
 
 warmup = 4000
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = torch.device('cpu')
 
 bert_model_name = 'bert-base-uncased'
 
