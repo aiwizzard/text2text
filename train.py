@@ -83,8 +83,6 @@ def main(config):
 
     model = ChatModel(config)
     model = model.to(config.device)
-    model.freeze_encoder()
-    model.unfreeze()
 
     criterion = nn.CrossEntropyLoss(reduction="none")
 
