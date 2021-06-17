@@ -13,7 +13,7 @@ class FFNet(nn.Module):
         out = self.layer_norm(x)
         out = self.layer1(out.transpose(1, 2))
         out = self.relu(out)
-        out = self.layer1(out)
+        out = self.layer2(out)
         out = self.dropout(out.transpose(1, 2))
        
         return x + out
