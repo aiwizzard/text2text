@@ -6,6 +6,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.optim import optimizer
 from torch.utils.data.dataloader import DataLoader
+from torch.nn.utils import clip_grad_norm_
 
 from tqdm import tqdm
 
@@ -38,7 +39,7 @@ def train(epoch: int, config, model: ChatModel, data_loader, criterion, optimize
 
             # create mask and add dimension
 
-            source_mask, target_mask, target_y_mask = create_masks(x, target, target_y)
+            source_mask, target_mask = create_masks(x, target, target_y)
 
             out = model(x, source_mask, target, target_mask)
 
@@ -47,6 +48,7 @@ def train(epoch: int, config, model: ChatModel, data_loader, criterion, optimize
             loss = criterion(out.transpose(1, 2), target_y).mean()
             loss.backward()
             optimizer.step()
+            clip_grad_norm_(model.parameters(), config.max_grad_norm)
 
             pbar.update(1)
             pbar.set_postfix_str(f"loss: {loss.item():.5f}")
