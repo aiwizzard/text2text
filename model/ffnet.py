@@ -10,9 +10,10 @@ class FFNet(nn.Module):
         self.dropout = nn.Dropout(dropout_rate)
 
     def forward(self, x):
-        x = self.layer1(x)
-        x = self.relu(x)
-        x = self.layer1(x)
-        x = self.dropout(x)
-        x = self.layer_norm(x)
-        return x
+        out = self.layer_norm(x)
+        out = self.layer1(out.transpose(1, 2))
+        out = self.relu(out)
+        out = self.layer1(out)
+        out = self.dropout(out.transpose(1, 2))
+       
+        return x + out
