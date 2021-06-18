@@ -88,15 +88,15 @@ def main(config):
 
     criterion = nn.CrossEntropyLoss(reduction="none")
 
-    adam_opimizer = optim.AdamW(
+    adam_optimizer = optim.AdamW(
         model.parameters(), lr=config.lr, betas=config.betas, eps=1e-9
     )
     optimizer = ScheduledOptimizer(
-        adam_opimizer, factor=2, model_dim=config.model_dim, warmup=config.warmup
+        adam_optimizer, factor=2, model_dim=config.model_dim, warmup=config.warmup
     )
 
     for epoch in range(0, config.epochs):
-        train(epoch, config, model, train_loader, criterion, optimizer)
+        train(epoch, config, model, train_loader, criterion, adam_optimizer)
 
     logger.info("finished Training")
 
