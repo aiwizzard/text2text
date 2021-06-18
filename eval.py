@@ -20,7 +20,6 @@ def evaluate(config, query, model, word_map):
     mem = model.encode(src, src_mask)
     print(f"mem: {mem}")
     words = torch.ones(1, 1).fill_(start_token).long().to(config.device)
-    # words = torch.LongTensor([[start_token]]).to(config.device)
     for i in range(config.max_len -1):
         target_mask = subsequent_mask(words.size(1)).to(config.device)
         out = model.decode(words, mem, src_mask, target_mask)
@@ -31,11 +30,7 @@ def evaluate(config, query, model, word_map):
         if next_word == word_map['<end>']:
             break
         words = torch.cat([words, torch.ones(1, 1).type_as(words).fill_(next_word).long()], dim=1)
-        # words = torch.cat([words, torch.LongTensor([[next_word]]).to(config.device)], dim=1)
         
-    # if words.dim() == 2:
-    #     words = words.squeeze(0)
-    #     words = words.tolist()
     words = words.view(-1).detach().cpu().numpy().tolist()[1:]   
         # tokenizer.decode
     sen_index = [w for w in words if w not in {word_map['<start>']}]
