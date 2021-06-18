@@ -5,7 +5,7 @@ with open('.data/wordmap.json', 'r') as j:
     word_map = json.load(j)
 
 vocab_size = len(word_map)
-max_len = 27
+max_len = 512
 batch_size = 64
 model_dim = 768
 ff_dim = 2048
