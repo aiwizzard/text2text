@@ -5,7 +5,7 @@ with open('.data/wordmap.json', 'r') as j:
     word_map = json.load(j)
 
 vocab_size = len(word_map)
-max_len = 145
+max_len = 27
 batch_size = 64
 model_dim = 768
 ff_dim = 2048
@@ -27,7 +27,4 @@ bert_model_name = 'bert-base-uncased'
 
 train_data = '.data/train_data.json'
 data_dir = '.data'
-pickle_path = f'{data_dir}/train_data.pkl'
 fn = 'trained_model'
-
-use_pickle = True
