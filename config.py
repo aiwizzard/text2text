@@ -28,3 +28,5 @@ bert_model_name = 'bert-base-uncased'
 train_data = '.data/train_data.json'
 data_dir = '.data'
 fn = 'trained_model'
+
+use_pickle = True
