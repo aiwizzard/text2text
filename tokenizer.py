@@ -1,10 +1,10 @@
 import torch
 from transformers.models.bert.tokenization_bert import BertTokenizer
-
+import config as config
 
 class Tokenizer(BertTokenizer):
     def convert(self, x):
-        return self.convert_tokens_to_ids(self.tokenize(x[:512]))
+        return self.convert_tokens_to_ids(self.tokenize(x[:config.max_len]))
 
     def decode(self, token_ids):
         if isinstance(token_ids, torch.Tensor):
