@@ -15,7 +15,7 @@ import config as config
 from model.dataset import ChatDataSet
 from model.model import ChatModel
 from optim.optimizer import ScheduledOptimizer
-from loss.loss import LabelSmoothingLoss
+from model.loss import LabelSmoothingLoss
 from utils import create_masks
 
 logging.basicConfig(
