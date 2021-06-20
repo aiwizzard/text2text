@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 import config as config
 
-from loss.label_smooth_loss import LabelSmoothingLoss
+from loss.label_smooth_loss import LabelSmoothingLoss, LabelSmoothing
 from model.dataset import ChatDataSet
 from model.model import ChatModel
 from optim.optimizer import ScheduledOptimizer
@@ -90,7 +90,8 @@ def main(config):
     with open('.data/wordmap.json', 'r') as j:
         word_map = json.load(j)
 
-    criterion = LabelSmoothingLoss(len(word_map), 0.1)
+    # criterion = LabelSmoothingLoss(len(word_map), 0.1)
+    criterion = LabelSmoothing(len(word_map), 0, 0.1)
 
     adam_optimizer = optim.AdamW(
         model.parameters(), lr=config.lr, betas=config.betas, eps=1e-9
