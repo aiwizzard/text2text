@@ -45,7 +45,7 @@ def train(epoch: int, config, model: ChatModel, data_loader, criterion, optimize
             out = model(x, source_mask, target, target_mask)
 
             optimizer.zero_grad()
-
+            print("size: {}".format(out.size(1)))
             loss = criterion(out, target_y)
             loss.backward()
             optimizer.step()
@@ -91,7 +91,7 @@ def main(config):
         word_map = json.load(j)
 
     # criterion = LabelSmoothingLoss(len(word_map), 0.1)
-    criterion = LabelSmoothing(64, 0, 0.1)
+    criterion = LabelSmoothing(len(word_map), 0, 0.1)
 
     adam_optimizer = optim.AdamW(
         model.parameters(), lr=config.lr, betas=config.betas, eps=1e-9
