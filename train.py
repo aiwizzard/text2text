@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 import config as config
 
-from loss.label_smooth_loss import LabelSmoothingLoss, LabelSmoothing
+from loss.label_smooth_loss import LabelSmoothingLoss, LabelSmoothing, LossWithLS
 from model.dataset import ChatDataSet
 from model.model import ChatModel
 from optim.optimizer import ScheduledOptimizer
@@ -43,9 +43,10 @@ def train(epoch: int, config, model: ChatModel, data_loader, criterion, optimize
             source_mask, target_mask = create_masks(x, target)
 
             out = model(x, source_mask, target, target_mask)
+            target_y_mask = target_y == 0
 
             optimizer.zero_grad()
-            loss = criterion(out, target_y)
+            loss = criterion(out, target_y, target_y_mask)
             loss.backward()
             optimizer.step()
             clip_grad_norm_(model.parameters(), config.max_grad_norm)
@@ -90,7 +91,8 @@ def main(config):
         word_map = json.load(j)
 
     # criterion = LabelSmoothingLoss(len(word_map), 0.1)
-    criterion = LabelSmoothing(len(word_map), 0, 0.1)
+    # criterion = LabelSmoothing(len(word_map), 0, 0.1)
+    criterion = LossWithLS(len(word_map), 0.1)
 
     adam_optimizer = optim.AdamW(
         model.parameters(), lr=config.lr, betas=config.betas, eps=1e-9
