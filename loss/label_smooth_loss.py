@@ -20,7 +20,7 @@ class LabelSmoothingLoss(nn.Module):
         tgt_dist.fill_(self.smooth / (self.size - 2))
         tgt_dist.scatter_(1, target.unsqueeze(1), self.confidence)
         tgt_dist[:, self.padding] = 0
-        mask = torch.nonzero(target == self.padding)
+        mask = target == self.padding
         if mask.dim() > 0:
             tgt_dist.index_fill_(0, mask.squeeze(), 0.0)
         self.true_dist = tgt_dist
