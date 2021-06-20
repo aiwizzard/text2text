@@ -15,6 +15,7 @@ import config as config
 from model.dataset import ChatDataSet
 from model.model import ChatModel
 from optim.optimizer import ScheduledOptimizer
+from loss.loss import LabelSmoothingLoss
 from utils import create_masks
 
 logging.basicConfig(
@@ -45,7 +46,7 @@ def train(epoch: int, config, model: ChatModel, data_loader, criterion, optimize
 
             optimizer.zero_grad()
 
-            loss = criterion(out.transpose(1, 2), target_y).mean()
+            loss = criterion(out, target_y)
             loss.backward()
             optimizer.step()
             clip_grad_norm_(model.parameters(), config.max_grad_norm)
@@ -62,14 +63,14 @@ def train(epoch: int, config, model: ChatModel, data_loader, criterion, optimize
         f"{config.data_dir}/{config.fn}.pth",
     )
     # not overwrite
-    torch.save(
-        {
-            "epoch": epoch,
-            "model": model.state_dict(),
-            "optimizer": optimizer.state_dict()
-        },
-        f'{config.data_dir}/{config.fn}_{epoch}.pth'
-    )
+    # torch.save(
+    #     {
+    #         "epoch": epoch,
+    #         "model": model.state_dict(),
+    #         "optimizer": optimizer.state_dict()
+    #     },
+    #     f'{config.data_dir}/{config.fn}_{epoch}.pth'
+    # )
     logger.info("Model Saved")
 
 
@@ -86,7 +87,10 @@ def main(config):
     model = ChatModel(config)
     model = model.to(config.device)
 
-    criterion = nn.CrossEntropyLoss(reduction="none")
+    with open('.data/wordmap.json', 'r') as j:
+        word_map = json.load(j)
+
+    criterion = LabelSmoothingLoss(len(word_map), 0.1)
 
     adam_optimizer = optim.AdamW(
         model.parameters(), lr=config.lr, betas=config.betas, eps=1e-9
@@ -95,8 +99,10 @@ def main(config):
         adam_optimizer, factor=2, model_dim=config.model_dim, warmup=config.warmup
     )
 
+    
+
     for epoch in range(0, config.epochs):
-        train(epoch, config, model, train_loader, criterion, adam_optimizer)
+        train(epoch, config, model, train_loader, criterion, optimizer)
 
     logger.info("finished Training")
 
