@@ -44,7 +44,7 @@ def main(config):
     with open('.data/wordmap.json', 'r') as j:
         word_map = json.load(j)
 
-    state_dict = torch.load(f"{config.data_dir}/trained_model_old.pth", map_location=config.device)
+    state_dict = torch.load(f"{config.data_dir}/trained_model.pth", map_location=config.device)
 
     model = ChatModel(config).to(config.device)
     model.load_state_dict(state_dict['model'])

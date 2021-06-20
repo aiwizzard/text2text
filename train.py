@@ -43,7 +43,7 @@ def train(epoch: int, config, model: ChatModel, data_loader, criterion, optimize
             source_mask, target_mask = create_masks(x, target)
 
             out = model(x, source_mask, target, target_mask)
-            target_y_mask = target_y == 0
+            target_y_mask = target_y != 0
 
             optimizer.zero_grad()
             loss = criterion(out, target_y, target_y_mask)
