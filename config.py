@@ -14,7 +14,7 @@ n_layers = 6
 dropout_rate = 0.1
 epochs = 3
 
-lr = 1e-3
+lr = 5e-3
 betas = (0.9, 0.98)
 max_grad_norm = 1.0
 
