@@ -12,10 +12,10 @@ from tqdm import tqdm
 
 import config as config
 
+from loss.label_smooth_loss import LabelSmoothingLoss
 from model.dataset import ChatDataSet
 from model.model import ChatModel
 from optim.optimizer import ScheduledOptimizer
-from loss.loss import LabelSmoothingLoss
 from utils import create_masks
 
 logging.basicConfig(
