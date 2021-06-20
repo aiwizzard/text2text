@@ -45,7 +45,6 @@ def train(epoch: int, config, model: ChatModel, data_loader, criterion, optimize
             out = model(x, source_mask, target, target_mask)
 
             optimizer.zero_grad()
-            print("size: {}".format(out.size(1)))
             loss = criterion(out, target_y)
             loss.backward()
             optimizer.step()
