@@ -25,4 +25,4 @@ def seed_everything(seed):
     np.random.seed(seed)
     torch.random.manual_seed(seed)
     torch.cuda.manual_seed(seed)
-    
+    torch.backends.cudnn.benchmark = True
