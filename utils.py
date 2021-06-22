@@ -8,6 +8,11 @@ def subsequent_mask(size):
     mask = np.triu(np.ones(shape), k=1).astype(np.uint8)
     return torch.from_numpy(mask) == 0
 
+# mask = (torch.triu(torch.ones(sz, sz)) == 1).transpose(0, 1)
+# mask = mask.float().masked_fill(mask == 0, float('-inf')).masked_fill(mask == 1, float(0.0))
+# return mask
+
+
 def create_masks(source, target, pad=0):
     source_mask = (source != pad).to(config.device)
 
@@ -16,3 +21,8 @@ def create_masks(source, target, pad=0):
 
     return source_mask, target_mask
 
+def seed_everything(seed):
+    np.random.seed(seed)
+    torch.random.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    

@@ -16,7 +16,7 @@ from loss.label_smooth_loss import LabelSmoothingLoss, LabelSmoothing, LossWithL
 from model.dataset import ChatDataSet
 from model.model import ChatModel
 from optim.optimizer import ScheduledOptimizer
-from utils import create_masks
+from utils import create_masks, seed_everything
 
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
@@ -75,6 +75,7 @@ def train(epoch: int, config, model: ChatModel, data_loader, criterion, optimize
 
 
 def main(config):
+    seed_everything(config.seed)
     with open(config.train_data)as file:
         train_data = json.load(file)
     train_loader = DataLoader(
