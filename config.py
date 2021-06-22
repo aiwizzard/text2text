@@ -12,7 +12,7 @@ ff_dim = 2048
 head = 8
 n_layers = 6
 dropout_rate = 0.1
-epochs = 3
+epochs = 10
 
 lr = 5e-3
 betas = (0.9, 0.98)
