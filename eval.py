@@ -40,6 +40,7 @@ def evaluate(config, query, model, word_map):
     sentence = ' '.join([rev_word_map[sen_index[k]] for k in range(len(sen_index))])
 
     return sentence
+    
 def main(config):
     with open('.data/wordmap.json', 'r') as j:
         word_map = json.load(j)
